@@ -47,13 +47,20 @@ void	stack_back(t_stack **stack_a, t_stack **stack_b)
 	push_a(stack_a, stack_b);
 	while (*stack_b)
 	{
-		if ((*stack_b)->value > (*stack_a)->value)
+		int	size;
+		
+		size = stack_size(*stack_b);
+		while (locate_max(*stack_b) != 0)
 		{
-			push_a(stack_a, stack_b);
-			rotate_a(stack_a);
+			if (locate_max(*stack_b) <= (size / 2))
+				rotate_b(stack_b);
+			else if (locate_max(*stack_b) > (size / 2)
+				|| (locate_max(*stack_b) == 3 && size == 5))
+				reverse_b(stack_b);
 		}
-		else
-			push_a(stack_a, stack_b);
+		push_a(stack_a, stack_b);
+		if (stack_size(*stack_a) == 2 && (*stack_a)->value > (*stack_a)->next->value)
+			swap_a(stack_a);
 	}
 }
 

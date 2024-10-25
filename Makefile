@@ -49,7 +49,7 @@ $(LIBFT): $(MAKE)
 	make -C $(LIBDIR)
 
 %.o: %.c $(HEADER) $(MAKE)
-	$(CC) $(CFLAGS) -I$(HEADER) -c $< -o $@
+	$(CC) $(CFLAGS) $(INCLUDE)$(HEADER) -c $< -o $@
 
 clean:
 	/bin/rm -f $(OBJS)
