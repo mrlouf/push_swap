@@ -20,7 +20,7 @@ int	main(int ac, char **av)
 	t_stack	*stack_a;
 	t_stack	*stack_b;
 
-	if (ac >= 2)
+	if (ac > 2)
 	{
 		size = check_format(av) - 1;
 		args = get_args(av, size);
@@ -37,5 +37,7 @@ int	main(int ac, char **av)
 		} */
 		free_all(stack_a, stack_b);
 	}
+	else
+		print_error();
 	return (0);
 }
