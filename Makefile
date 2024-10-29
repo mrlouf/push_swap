@@ -6,8 +6,6 @@ NAME		= 	push_swap
 
 INCLUDES	=	includes/
 
-LIBDIR		=	libft/
-
 # -=-=-=-=-    FILES -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=- #
 
 SRCS		=	srcs/push_swap.c	\
@@ -28,27 +26,25 @@ HEADER		=	includes/push_swap.h
 
 MAKE		=	Makefile
 
-OBJS		=	$(SRCS:%.c=%.o)
-
-LIBFT		=	libft.a
+OBJS		=	$(SRCS:.c=.o)
 
 # -=-=-=-=-    FLAGS -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= #
 
 CC			=	-cc
-CFLAGS		=	-Werror -Wextra -Wall -g -fsanitize=address
+CFLAGS		=	-Werror -Wextra -Wall -g# -fsanitize=address
 INCLUDE		=	-I/
 
 # -=-=-=-=-    TARGETS -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=- #
 
-all: $(NAME) $(LIBFT)
+all: $(NAME) make_libft
 
-$(NAME): $(LIBFT) $(OBJS) $(SRCS) $(HEADER) $(MAKE)
-	$(CC) $(CFLAGS) $(OBJS) $(INCLUDE)$(HEADER) $(LIBDIR)$(LIBFT) -o $(NAME)
+$(NAME): $(OBJS) $(SRCS)
+	$(CC) $(CFLAGS) $(OBJS) $(INCLUDE)$(HEADER) libft/libft.a -o $(NAME)
 
-$(LIBFT): $(MAKE)
-	make -C $(LIBDIR)
+make_libft:
+	make -C libft
 
-%.o: %.c $(HEADER) $(MAKE)
+%.o: %.c $(HEADER) Makefile
 	$(CC) $(CFLAGS) $(INCLUDE)$(HEADER) -c $< -o $@
 
 clean:
@@ -60,4 +56,4 @@ fclean: clean
 
 re: fclean all
 
-.PHONY:  all clean fclean re
+.PHONY:  all clean fclean re make_libft

@@ -13,77 +13,96 @@
 #include "../includes/push_swap.h"
 #include "../libft/libft.h"
 
-/*	These functions compare the cost of rotating/reverting the min or the max value
-	to the top before pushing it to stack b, choosing the less costly move.
-	This is done by checking which number is the closest to the middle of the stack,
-	indicating a costly move (the closer to the beginning or end, the cheapest.	*/
-
-int		cost_min(t_stack **stack_a)
+t_stack	*ptr_to_min(t_stack *stack)
 {
-	int	cost;
-	int	size;
-	
-	size = stack_size(*stack_a);
-	cost = (size / 2) - locate_min(*stack_a);
-	if (cost < 0)
-		cost = -cost;
-	return (cost);
-}
+	t_stack	*tmp;
+	t_stack	*min_ptr;
+	long	min_val;
 
-int		cost_max(t_stack **stack_a)
-{
-	int	cost;
-	int	size;
-	
-	size = stack_size(*stack_a);
-	cost = (size / 2) - locate_max(*stack_a);
-	if (cost < 0)
-		cost = -cost;
-	return (cost);
-}
-
-void	stack_back(t_stack **stack_a, t_stack **stack_b)
-{
-	push_a(stack_a, stack_b);
-	while (*stack_b)
+	tmp = stack;
+	min_val = stack->value;
+	min_ptr = tmp;
+	while (tmp)
 	{
-		int	size;
-		
-		size = stack_size(*stack_b);
-		while (locate_max(*stack_b) != 0)
+		if (tmp->value < min_val)
 		{
-			if (locate_max(*stack_b) <= (size / 2))
-				rotate_b(stack_b);
-			else if (locate_max(*stack_b) > (size / 2)
-				|| (locate_max(*stack_b) == 3 && size == 5))
-				reverse_b(stack_b);
+			min_ptr = tmp;
+			min_val = tmp->value;
 		}
-		push_a(stack_a, stack_b);
-		if (stack_size(*stack_a) == 2 && (*stack_a)->value > (*stack_a)->next->value)
-			swap_a(stack_a);
+		tmp = tmp->next;
+	}
+	return (min_ptr);
+}
+
+t_stack	*ptr_to_max(t_stack *stack)
+{
+	t_stack	*tmp;
+	t_stack	*max_ptr;
+	long	max_val;
+
+	tmp = stack;
+	max_val = stack->value;
+	max_ptr = stack;
+	while (tmp)
+	{
+		if (tmp->value > max_val)
+		{
+			max_ptr = tmp;
+			max_val = tmp->value;
+		}
+		tmp = tmp->next;
+	}
+	return (max_ptr);
+}
+
+/*	This function normalises the set of values in a stack; if the stack size is
+	500, the value in each node will get replaced by 0-499 while retaining
+	the same original order.		*/
+
+void	normalise_stack(t_stack **stack_a, int size)
+{
+	int		i;
+	t_stack	*min;
+	t_stack	*max;
+
+	i = 0;
+	while (i < size)
+	{
+		min = ptr_to_min(*stack_a);
+		min->value = LONG_MAX - (1 + i);
+		i++;
+	}
+	i = 0;
+	while (i < size)
+	{
+		max = ptr_to_max(*stack_a);
+		max->value = i;
+		i++;
 	}
 }
-
-/*	Note: with these functions, a high value of cost indicates a cheap move.
-	For example, cost_min of 5 on a stack of 10 means it is either at the beginning
-	or the end.			*/
 
 void	sort_big(t_stack **stack_a, t_stack **stack_b)
 {
-	while (stack_size(*stack_a) > 0)
+	int	iterations;
+	int	size;
+	int	i;
+
+	i = 0;
+	size = stack_size(*stack_a);
+	normalise_stack(stack_a, size);
+	while (!is_sorted(stack_a))
 	{
-		if ((cost_min(stack_a) - 1) > cost_max(stack_a))
+		iterations = 0;
+		while (iterations < size && !is_sorted(stack_a))
 		{
-			rotate_to_min(stack_a);
-			push_b(stack_a, stack_b);
-			rotate_b(stack_b);
+			iterations++;
+			if ((((*stack_a)->value >> i) & 1) == 0)
+				push_b(stack_a, stack_b);
+			else
+				rotate_a(stack_a);
 		}
-		else
-		{
-			rotate_to_max(stack_a);
-			push_b(stack_a, stack_b);
-			rotate_b(stack_b);
-		}
+		while (stack_size(*stack_b) > 0)
+			push_a(stack_a, stack_b);
+		i++;
 	}
-	stack_back(stack_a, stack_b);
 }

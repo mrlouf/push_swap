@@ -15,7 +15,7 @@
 
 int	stack_size(t_stack *stack)
 {
-	int i;
+	int	i;
 
 	if (stack == NULL)
 		return (0);

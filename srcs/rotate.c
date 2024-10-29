@@ -45,4 +45,3 @@ void	rotate_ab(t_stack **stack_a, t_stack **stack_b)
 	rotate(stack_b);
 	write(1, "rr\n", 3);
 }
-

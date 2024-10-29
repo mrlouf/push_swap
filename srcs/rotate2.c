@@ -15,13 +15,13 @@
 
 /*	Returns the position of the min element of the stack, (0) if first	*/
 
-int		locate_min(t_stack *stack_a)
+int	locate_min(t_stack *stack_a)
 {
 	int		tmp;
 	int		i;
 	int		pos;
 	int		size;
-	
+
 	i = 1;
 	pos = 0;
 	tmp = stack_a->value;
@@ -30,7 +30,7 @@ int		locate_min(t_stack *stack_a)
 	while (i < size)
 	{
 		if (tmp > stack_a->value)
-		{		
+		{
 			tmp = stack_a->value;
 			pos = i;
 		}
@@ -42,13 +42,13 @@ int		locate_min(t_stack *stack_a)
 
 /*	Returns the position of the max element of the stack, (0) if first	*/
 
-int		locate_max(t_stack *stack_a)
+int	locate_max(t_stack *stack_a)
 {
 	int		tmp;
 	int		i;
 	int		pos;
 	int		size;
-	
+
 	i = 1;
 	pos = 0;
 	tmp = stack_a->value;
@@ -57,7 +57,7 @@ int		locate_max(t_stack *stack_a)
 	while (i < size)
 	{
 		if (tmp < stack_a->value)
-		{		
+		{
 			tmp = stack_a->value;
 			pos = i;
 		}
@@ -73,7 +73,7 @@ int		locate_max(t_stack *stack_a)
 void	rotate_to_min(t_stack **stack_a)
 {
 	int	size;
-	
+
 	size = stack_size(*stack_a);
 	while (locate_min(*stack_a) != 0)
 	{
@@ -88,7 +88,7 @@ void	rotate_to_min(t_stack **stack_a)
 void	rotate_to_max(t_stack **stack_a)
 {
 	int	size;
-	
+
 	size = stack_size(*stack_a);
 	while (locate_max(*stack_a) != 0)
 	{

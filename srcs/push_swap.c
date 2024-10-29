@@ -16,7 +16,7 @@
 int	main(int ac, char **av)
 {
 	int		*args;
-	int 	size;
+	int		size;
 	t_stack	*stack_a;
 	t_stack	*stack_b;
 
@@ -28,13 +28,6 @@ int	main(int ac, char **av)
 		stack_b = NULL;
 		stack_a = form_stack(args, size);
 		sort(&stack_a, &stack_b, size);
-/*
-		t_stack *tmp = stack_a;
-		while (tmp != NULL)
-		{
-			ft_printf("%d ", tmp->value);
-		 	tmp = tmp->next;
-		} */
 		free_all(stack_a, stack_b);
 	}
 	else

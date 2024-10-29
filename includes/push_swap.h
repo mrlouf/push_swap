@@ -17,8 +17,7 @@
 
 typedef struct s_stack
 {
-	int				value;
-	int				index;
+	long			value;
 	struct s_stack	*prev;
 	struct s_stack	*next;
 }	t_stack;
@@ -71,5 +70,7 @@ int			locate_max(t_stack *stack_a);
 int			cost_min(t_stack **stack_a);
 int			cost_max(t_stack **stack_a);
 void		stack_back(t_stack **stack_a, t_stack **stack_b);
+t_stack		*ptr_to_min(t_stack *stack);
+t_stack		*ptr_to_max(t_stack *stack);
 
 #endif
